@@ -44,19 +44,19 @@ const enableTwoFactorAuthentication = () => {
 };
 
 const showQrCode = () => {
-    return axios.get(route('two-factor.qr-code')).then(response => {
+    return axiosInstance.get(route('two-factor.qr-code')).then(response => {
         qrCode.value = response.data.svg;
     });
 };
 
 const showSetupKey = () => {
-    return axios.get(route('two-factor.secret-key')).then(response => {
+    return axiosInstance.get(route('two-factor.secret-key')).then(response => {
         setupKey.value = response.data.secretKey;
     });
 }
 
 const showRecoveryCodes = () => {
-    return axios.get(route('two-factor.recovery-codes')).then(response => {
+    return axiosInstance.get(route('two-factor.recovery-codes')).then(response => {
         recoveryCodes.value = response.data;
     });
 };
@@ -75,7 +75,7 @@ const confirmTwoFactorAuthentication = () => {
 };
 
 const regenerateRecoveryCodes = () => {
-    axios
+    axiosInstance
         .post(route('two-factor.recovery-codes'))
         .then(() => showRecoveryCodes());
 };

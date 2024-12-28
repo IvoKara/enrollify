@@ -46,6 +46,11 @@ export default defineConfig({
             imports: [
                 'vue',
                 {
+                    'axios': [
+                        ['default', 'axios'], // import { default as axios } from 'axios',
+                    ],
+                },
+                {
 
                     from: '@inertiajs/vue3',
                     imports: [
