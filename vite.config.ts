@@ -26,7 +26,10 @@ export default defineConfig({
         }]),
         components({
             dts: true,
-            dirs: ['resources/js/Components'],
+            dirs: [
+                'resources/js/Components',
+                'resources/js/Layouts',
+            ],
         })
     ],
     resolve: {
