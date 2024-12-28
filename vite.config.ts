@@ -44,7 +44,6 @@ export default defineConfig({
                 'resources/js/Utils',
             ],
             imports: [
-                'vue',
                 {
 
                     from: '@inertiajs/vue3',
@@ -52,7 +51,10 @@ export default defineConfig({
                         'usePage',
                         'useForm',
                     ],
-                    type: true
+                },
+                {
+                    from: 'ziggy-js',
+                    imports: ['route'],
                 }
             ]
         })

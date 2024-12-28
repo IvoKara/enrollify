@@ -32,7 +32,8 @@
         "resources/js/**/*.ts",
         "resources/js/**/*.d.ts",
         "resources/js/**/*.vue",
-        "components.d.ts"
+        "components.d.ts",
+        "auto-imports.d.ts"
     ],
     "exclude": [
         "node_modules",
