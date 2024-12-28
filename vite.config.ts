@@ -44,13 +44,16 @@ export default defineConfig({
                 'resources/js/Utils',
             ],
             imports: [
+                'vue',
                 {
 
                     from: '@inertiajs/vue3',
                     imports: [
-                        'usePage',
+                        'usePoll',
                         'useForm',
                         'router',
+                        'useRemember',
+                        'usePrefetch'
                     ],
                 },
                 {
