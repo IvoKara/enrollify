@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
-
 const props = defineProps({
     email: String,
     token: String,

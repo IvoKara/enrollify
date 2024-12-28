@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { nextTick, ref } from 'vue';
-import { Head, useForm } from '@inertiajs/vue3';
-
 const recovery = ref(false);
 
 const form = useForm({

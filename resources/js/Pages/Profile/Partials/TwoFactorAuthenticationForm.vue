@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { router, useForm, usePage } from '@inertiajs/vue3';
-
 const props = defineProps({
     requiresConfirmation: Boolean,
 });

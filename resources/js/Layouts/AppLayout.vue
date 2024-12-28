@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { router } from '@inertiajs/vue3';
-
-
 defineProps({
     title: String,
 });

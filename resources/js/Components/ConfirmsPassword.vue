@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref, reactive, nextTick } from 'vue';
-
 const emit = defineEmits(['confirmed']);
 
 defineProps({
