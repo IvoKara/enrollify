@@ -5,6 +5,8 @@ const props = defineProps({
     defaultPermissions: Array,
 });
 
+const page = usePage()
+
 const createApiTokenForm = useForm({
     name: '',
     permissions: props.defaultPermissions,
@@ -160,9 +162,9 @@ const deleteApiToken = () => {
                     Please copy your new API token. For your security, it won't be shown again.
                 </div>
 
-                <div v-if="$page.props.jetstream.flash.token"
+                <div v-if="page.props.jetstream.flash.token"
                     class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 break-all">
-                    {{ $page.props.jetstream.flash.token }}
+                    {{ page.props.jetstream.flash.token }}
                 </div>
             </template>
 
