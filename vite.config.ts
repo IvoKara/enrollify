@@ -30,6 +30,12 @@ export default defineConfig({
                 'resources/js/Components',
                 'resources/js/Layouts',
             ],
+            types: [
+                {
+                    from: '@inertiajs/vue3',
+                    names: ['Link', 'Head']
+                }
+            ]
         })
     ],
     resolve: {
