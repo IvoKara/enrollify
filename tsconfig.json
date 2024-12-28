@@ -1,44 +1,44 @@
 {
-    "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
-        "moduleResolution": "node",
-        "declaration": true,
-        "noImplicitAny": false,
-        "strict": true,
-        "sourceMap": true,
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "allowJs": true,
-        "lib": [
-            "esnext",
-            "dom"
-        ],
-        "types": [
-            "@types/node",
-        ],
-        "baseUrl": ".",
-        "outDir": "./public/build/assets",
-        "paths": {
-            "@/*": [
-                "resources/js/*"
-            ],
-            "ziggy-js": [
-                "./vendor/tightenco/ziggy"
-            ]
-        }
-    },
-    "include": [
-        "resources/js/**/*.ts",
-        "resources/js/**/*.d.ts",
-        "resources/js/**/*.vue",
-        "components.d.ts",
-        "auto-imports.d.ts"
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": [
+      "esnext",
+      "dom"
     ],
-    "exclude": [
-        "node_modules",
-        "public",
-        ".pnpm-store",
-        "vendor"
-    ]
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": [
+        "resources/js/*"
+      ],
+      "ziggy-js": [
+        "./vendor/tightenco/ziggy"
+      ]
+    },
+    "resolveJsonModule": true,
+    "types": [
+      "@types/node"
+    ],
+    "allowJs": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "declaration": true,
+    "outDir": "./public/build/assets",
+    "sourceMap": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "resources/js/**/*.ts",
+    "resources/js/**/*.d.ts",
+    "resources/js/**/*.vue",
+    "components.d.ts",
+    "auto-imports.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "public",
+    ".pnpm-store",
+    "vendor"
+  ]
 }
