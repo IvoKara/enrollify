@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 
@@ -16,6 +16,6 @@ const classes = computed(() => {
 
 <template>
     <Link :href="href" :class="classes">
-        <slot />
+    <slot />
     </Link>
 </template>
