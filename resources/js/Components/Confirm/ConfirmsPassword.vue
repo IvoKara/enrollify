@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import { ref, reactive, nextTick } from 'vue';
-import DialogModal from './DialogModal.vue';
-import InputError from './InputError.vue';
-import PrimaryButton from './PrimaryButton.vue';
-import SecondaryButton from './SecondaryButton.vue';
-import TextInput from './TextInput.vue';
-
 const emit = defineEmits(['confirmed']);
 
 defineProps({
@@ -34,7 +27,7 @@ const form = reactive({
 const passwordInput = ref(null);
 
 const startConfirmingPassword = () => {
-    axios.get(route('password.confirmation')).then(response => {
+    axiosInstance.get(route('password.confirmation')).then(response => {
         if (response.data.confirmed) {
             emit('confirmed');
         } else {
@@ -48,7 +41,7 @@ const startConfirmingPassword = () => {
 const confirmPassword = () => {
     form.processing = true;
 
-    axios.post(route('password.confirm'), {
+    axiosInstance.post(route('password.confirm'), {
         password: form.password,
     }).then(() => {
         form.processing = false;

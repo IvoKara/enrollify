@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
-import { usePage } from '@inertiajs/vue3';
-
 const page = usePage();
 const show = ref(true);
 const style = ref('success');
