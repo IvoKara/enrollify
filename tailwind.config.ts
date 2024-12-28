@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
-import { defaultTheme } from 'tailwindcss';
-import { forms, typography } from '@tailwindcss';
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
 
 export default <Partial<Config>>{
     content: [
