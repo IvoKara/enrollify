@@ -3,7 +3,7 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import { run } from 'vite-plugin-run'
 import components from 'unplugin-vue-components/vite'
-
+import autoimports from 'unplugin-auto-import/vite'
 
 export default defineConfig({
     plugins: [
@@ -34,6 +34,25 @@ export default defineConfig({
                 {
                     from: '@inertiajs/vue3',
                     names: ['Link', 'Head']
+                }
+            ]
+        }),
+        autoimports({
+            dts: true,
+            dirs: [
+                'resources/js/Composables',
+                'resources/js/Utils',
+            ],
+            imports: [
+                'vue',
+                {
+
+                    from: '@inertiajs/vue3',
+                    imports: [
+                        'usePage',
+                        'useForm',
+                    ],
+                    type: true
                 }
             ]
         })
