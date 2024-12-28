@@ -21,3 +21,4 @@ yarn-error.log
 /.zed
 /.pnpm-store
 components.d.ts
+auto-imports.d.ts
