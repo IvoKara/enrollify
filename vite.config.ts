@@ -50,6 +50,7 @@ export default defineConfig({
                     imports: [
                         'usePage',
                         'useForm',
+                        'router',
                     ],
                 },
                 {
