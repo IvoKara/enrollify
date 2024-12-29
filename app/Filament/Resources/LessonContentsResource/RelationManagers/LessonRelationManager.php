@@ -8,6 +8,7 @@ use App\Models\Video;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -54,7 +55,23 @@ class LessonRelationManager extends RelationManager
             ->recordTitleAttribute('id')
             ->reorderable('order')
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('lesson_id'),
+                Tables\Columns\TextColumn::make('contentable_id'),
+                Tables\Columns\TextColumn::make('contentable_type')
+                    ->label('Type')
+                    ->icon(fn (string $state) => match ($state) {
+                        Text::class => 'heroicon-o-document-text',
+                        Video::class => 'heroicon-o-video-camera',
+                    })
+                    ->iconPosition(IconPosition::After)
+                    ->iconColor(fn (string $state) => match ($state) {
+                        Text::class => 'info',
+                        Video::class => 'success',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        Text::class => 'Text',
+                        Video::class => 'Video',
+                    }),
             ])
             ->filters([
                 //
