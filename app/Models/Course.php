@@ -14,6 +14,7 @@ class Course extends Model
         'description',
         'duration',
         'meta_description',
+        'media_id',
     ];
 
     public function image(): BelongsTo

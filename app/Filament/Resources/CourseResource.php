@@ -23,7 +23,13 @@ class CourseResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('title')->required(),
+                TextInput::make('slug'),
+                TextInput::make('duration')
+                    ->integer()
+                    ->helperText('Duration in minutes'),
+                RichEditor::make('description')->required(),
+                CuratorPicker::make('media_id')->label('Image'),
             ]);
     }
 
