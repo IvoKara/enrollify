@@ -11,7 +11,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class LessonResource extends Resource
@@ -51,7 +54,26 @@ class LessonResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('title')->searchable(),
+                IconColumn::make('is_free')
+                    ->boolean()
+                    ->label('Free'),
+                TextColumn::make('meta_description')
+                    ->searchable()
+                    ->label('Meta Description'),
+                TextColumn::make('duration')->sortable(),
+                TextColumn::make('course.title')
+                    ->searchable()
+                    ->url(
+                        fn (Lesson $record) => route(
+                            'filament.admin.resources.courses.edit',
+                            ['record' => $record->course->id]
+                        )
+                    )
+                    ->color('primary')
+                    ->icon('heroicon-m-arrow-top-right-on-square')
+                    ->iconPosition(IconPosition::After)
+                    ->label('Course'),
             ])
             ->filters([
                 //
