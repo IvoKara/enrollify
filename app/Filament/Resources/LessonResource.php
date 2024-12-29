@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\LessonContentsResource\RelationManagers\LessonRelationManager;
 use App\Filament\Resources\LessonResource\Pages;
 use App\Models\Lesson;
 use Filament\Forms\Components\Checkbox;
@@ -110,7 +111,7 @@ class LessonResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            LessonRelationManager::class,
         ];
     }
 
