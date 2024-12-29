@@ -107,7 +107,7 @@ function logout() {
                             <DropdownLink as="button">
                               <div class="flex items-center">
                                 <svg
-                                  v-if="team.id ==== page.props.auth.user.current_team_id"
+                                  v-if="team.id === page.props.auth.user.current_team_id"
                                   class="me-2 h-5 w-5 text-green-400"
                                   xmlns="http://www.w3.org/2000/svg" fill="none"
                                   viewBox="0 0 24 24" stroke-width="1.5"
@@ -305,7 +305,7 @@ function logout() {
                       <ResponsiveNavLink as="button">
                         <div class="flex items-center">
                           <svg
-                            v-if="team.id ==== page.props.auth.user.current_team_id"
+                            v-if="team.id === page.props.auth.user.current_team_id"
                             class="me-2 h-5 w-5 text-green-400"
                             xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
