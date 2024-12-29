@@ -16,6 +16,10 @@
     "editor.tabSize": 2,
     "editor.defaultFormatter": null
   },
+  "[jsonc]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": null
+  },
   "[vue]": {
     "editor.tabSize": 2,
     "editor.defaultFormatter": null
