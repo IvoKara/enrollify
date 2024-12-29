@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\CourseStatus;
 use App\Filament\Resources\CourseResource\Pages;
 use App\Models\Course;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -31,6 +33,9 @@ class CourseResource extends Resource
                     ->helperText('Duration in minutes'),
                 RichEditor::make('description')->required(),
                 CuratorPicker::make('media_id')->label('Image'),
+                Select::make('status')
+                    ->searchable()
+                    ->options(CourseStatus::options()),
             ]);
     }
 
@@ -42,6 +47,10 @@ class CourseResource extends Resource
                     ->label('Image')
                     ->size(60)
                     ->ring(2),
+                TextColumn::make('status')
+                    ->searchable()
+                    ->badge()
+                    ->color(fn (string $state) => CourseStatus::colors($state)),
                 TextColumn::make('title')->searchable(),
                 TextColumn::make('slug')->searchable(),
                 TextColumn::make('duration')->searchable(),
