@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\LessonContentsResource\RelationManagers;
 
+use App\Models\LessonContent;
+use App\Models\Text;
+use App\Models\Video;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -16,12 +19,32 @@ class LessonRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('id')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('lesson_id')
-                    ->relationship('lesson', 'title')
-                    ->searchable(),
+                Forms\Components\Select::make('contentable_type')
+                    ->label('Content Type')
+                    ->options([
+                        Text::class => 'Text',
+                        Video::class => 'Video',
+                    ])
+                    ->reactive()
+                    ->afterStateUpdated(function ($set, $state) {
+                        $set('contentable_id', null);
+                    }),
+                Forms\Components\Select::make('contentable_id')
+                    ->label('Content ID')
+                    ->options(function (callable $get) {
+                        $modelClass = $get('contentable_type');
+
+                        return $modelClass ? $modelClass::query()->pluck('id', 'id') : [];
+                    })
+                    ->reactive()
+                    ->visible(fn (callable $get) => $get('contentable_type') !== null),
+                Forms\Components\TextInput::make('order')
+                    ->default(function () {
+                        $lessonId = $this->getRelationship()->getParent()->id;
+                        $maxOrder = LessonContent::where('lesson_id', $lessonId)->max('order');
+
+                        return is_null($maxOrder) ? 1 : $maxOrder + 1;
+                    }),
             ]);
     }
 
@@ -29,6 +52,7 @@ class LessonRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('id')
+            ->reorderable('order')
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
             ])
