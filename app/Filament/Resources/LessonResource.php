@@ -15,7 +15,9 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class LessonResource extends Resource
 {
@@ -76,7 +78,24 @@ class LessonResource extends Resource
                     ->label('Course'),
             ])
             ->filters([
-                //
+                Filter::make('Filter By Duration')->form([
+                    TextInput::make('min_duration')
+                        ->numeric()
+                        ->placeholder('Min Duration'),
+                    TextInput::make('max_duration')
+                        ->numeric()
+                        ->placeholder('Maz Duration'),
+                ])->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['min_duration'],
+                            fn (Builder $query, $value) => $query->where('duration', '>=', $value),
+                        )
+                        ->when(
+                            $data['max_duration'],
+                            fn (Builder $query, $value) => $query->where('duration', '<=', $value),
+                        );
+                }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
