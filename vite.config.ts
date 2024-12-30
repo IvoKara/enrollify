@@ -45,6 +45,7 @@ export default defineConfig({
       ],
       imports: [
         'vue',
+        '@vueuse/core',
         {
           axios: [
             ['default', 'axios'], // import { default as axios } from 'axios',
