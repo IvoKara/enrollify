@@ -22,4 +22,5 @@ export default <Partial<Config>>{
   },
 
   plugins: [forms, typography],
+  darkMode: 'class',
 }
