@@ -9,3 +9,7 @@
 .fi-modal-close-overlay {
     @apply backdrop-blur;
 }
+
+#brand-logo {
+    @apply h-full fill-[#2284F3] dark:fill-white;
+}

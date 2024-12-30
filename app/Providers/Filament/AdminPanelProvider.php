@@ -35,8 +35,10 @@ class AdminPanelProvider extends PanelProvider
                     ->pluralLabel('Media'),
             ])
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#2284F3'),
             ])
+            ->brandLogo(fn () => view('logo'))
+            ->brandLogoHeight('1.75rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
