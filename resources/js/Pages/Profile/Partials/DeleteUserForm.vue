@@ -39,9 +39,8 @@ function closeModal() {
     </template>
 
     <template #content>
-      <div class="max-w-xl text-sm text-gray-600">
-        Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting
-        your account, please download any data or information that you wish to retain.
+      <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
+        Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.
       </div>
 
       <div class="mt-5">
@@ -57,14 +56,17 @@ function closeModal() {
         </template>
 
         <template #content>
-          Are you sure you want to delete your account? Once your account is deleted, all of its resources and
-          data will be permanently deleted. Please enter your password to confirm you would like to
-          permanently delete your account.
+          Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
 
           <div class="mt-4">
             <TextInput
-              ref="passwordInput" v-model="form.password" type="password" class="mt-1 block w-3/4"
-              placeholder="Password" autocomplete="current-password" @keyup.enter="deleteUser"
+              ref="passwordInput"
+              v-model="form.password"
+              type="password"
+              class="mt-1 block w-3/4"
+              placeholder="Password"
+              autocomplete="current-password"
+              @keyup.enter="deleteUser"
             />
 
             <InputError :message="form.errors.password" class="mt-2" />
@@ -77,7 +79,9 @@ function closeModal() {
           </SecondaryButton>
 
           <DangerButton
-            class="ms-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+            class="ms-3"
+            :class="{ 'opacity-25': form.processing }"
+            :disabled="form.processing"
             @click="deleteUser"
           >
             Delete Account
