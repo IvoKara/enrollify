@@ -9,5 +9,6 @@ class Text extends Model
     protected $fillable = [
         'media_id',
         'content',
+        'title',
     ];
 }
