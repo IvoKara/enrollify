@@ -45,8 +45,8 @@ class CourseResource extends Resource
             ->columns([
                 CuratorColumn::make('media_id')
                     ->label('Image')
-                    ->size(60)
-                    ->ring(2),
+                    ->width(120)
+                    ->height(80),
                 TextColumn::make('status')
                     ->searchable()
                     ->badge()
