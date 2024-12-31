@@ -8,8 +8,10 @@ use App\Models\Video;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Table;
 
 class VideoResource extends Resource
@@ -52,14 +54,22 @@ class VideoResource extends Resource
                     ->getStateUsing(fn (Video $record) => $record->thumbnail())
                     ->width(120)
                     ->height(80),
-                Tables\Columns\TextColumn::make('title')->searchable(),
-                Tables\Columns\TextColumn::make('description')->searchable(),
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->size(TextColumnSize::Large)
+                    ->weight(FontWeight::Bold),
+                Tables\Columns\TextColumn::make('description')
+                    ->html()
+                    ->searchable()
+                    ->words(20)
+                    ->lineClamp(3),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
