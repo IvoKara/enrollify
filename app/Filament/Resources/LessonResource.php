@@ -5,17 +5,22 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LessonContentsResource\RelationManagers\LessonRelationManager;
 use App\Filament\Resources\LessonResource\Pages;
 use App\Models\Lesson;
-use Filament\Forms\Components\Checkbox;
+use Carbon\CarbonInterval;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,41 +35,74 @@ class LessonResource extends Resource
     {
         return $form
             ->schema([
-                Section::make()->schema([
-                    TextInput::make('title')
-                        ->required()
-                        ->label('Title'),
-                    TextInput::make('meta_description')
-                        ->required()
-                        ->label('Meta Description'),
-                    TextInput::make('duration')
-                        ->integer()
-                        ->required()
-                        ->label('Duration'),
-                    RichEditor::make('overview')
-                        ->required()
-                        ->label('Overview'),
-                    Checkbox::make('is_free'),
-                    Select::make('course_id')
-                        ->relationship('course', 'title')
-                        ->searchable()
-                        ->required(),
-                ]),
-            ]);
+                Group::make()->schema([
+                    Section::make()->schema([
+                        TextInput::make('title')
+                            ->required()
+                            ->label('Title'),
+                        TextInput::make('meta_description')
+                            ->required()
+                            ->label('Meta Description'),
+
+                        RichEditor::make('overview')
+                            ->required()
+                            ->label('Overview'),
+                    ]),
+
+                ])
+                    ->columnSpan(2)
+                    ->columnStart(1),
+
+                Group::make()->schema([
+                    Section::make('Course')->schema([
+                        Toggle::make('is_free')
+                            ->label('Is Free')
+                            ->onIcon('heroicon-o-check')
+                            ->offIcon('heroicon-o-currency-dollar'),
+                        Select::make('course_id')
+                            ->relationship('course', 'title')
+                            ->searchable()
+                            ->required()
+                            ->native(false),
+                    ]),
+
+                    Section::make('Duration')->schema([
+                        TextInput::make('duration')
+                            ->integer()
+                            ->helperText('Duration in minutes')
+                            ->required()
+                            ->live()
+                            ->afterStateUpdated(function ($state, Set $set) {
+                                $set('duration_for_humans', CarbonInterval::minutes($state)->cascade()->forHumans());
+                            }),
+                        TextInput::make('duration_for_humans')
+                            ->dehydrated()
+                            ->disabled()
+                            ->helperText('Duration in readable format'),
+                    ]),
+                ])
+                    ->columnSpan(1)
+                    ->columnStart(3),
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('title')->searchable(),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->size(TextColumnSize::Large)
+                    ->weight(FontWeight::Bold),
                 IconColumn::make('is_free')
                     ->boolean()
                     ->label('Free'),
                 TextColumn::make('meta_description')
                     ->searchable()
                     ->label('Meta Description'),
-                TextColumn::make('duration')->sortable(),
+                TextColumn::make('duration')
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => CarbonInterval::minutes($state)->cascade()->forHumans()),
                 TextColumn::make('course.title')
                     ->searchable()
                     ->url(
@@ -85,7 +123,7 @@ class LessonResource extends Resource
                         ->placeholder('Min Duration'),
                     TextInput::make('max_duration')
                         ->numeric()
-                        ->placeholder('Maz Duration'),
+                        ->placeholder('Max Duration'),
                 ])->query(function (Builder $query, array $data): Builder {
                     return $query
                         ->when(
@@ -100,6 +138,8 @@ class LessonResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -65,7 +65,8 @@ class CourseResource extends Resource
                         Select::make('status')
                             ->searchable()
                             ->options(CourseStatus::options())
-                            ->default(CourseStatus::DRAFT),
+                            ->default(CourseStatus::DRAFT)
+                            ->native(false),
                     ]),
 
                     Section::make('Duration')->schema([
