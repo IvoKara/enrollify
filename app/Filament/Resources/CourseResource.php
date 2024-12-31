@@ -7,14 +7,22 @@ use App\Filament\Resources\CourseResource\Pages;
 use App\Models\Course;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
+use Carbon\CarbonInterval;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontFamily;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class CourseResource extends Resource
 {
@@ -26,17 +34,59 @@ class CourseResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')->required(),
-                TextInput::make('slug'),
-                TextInput::make('duration')
-                    ->integer()
-                    ->helperText('Duration in minutes'),
-                RichEditor::make('description')->required(),
-                CuratorPicker::make('media_id')->label('Image'),
-                Select::make('status')
-                    ->searchable()
-                    ->options(CourseStatus::options()),
-            ]);
+                Group::make()->schema([
+                    Section::make()->schema([
+                        TextInput::make('title')
+                            ->required()
+                            ->maxLength(255)
+                            ->live(debounce: 500)
+                            ->afterStateUpdated(function (string $operation, $state, Set $set) {
+                                $set('slug', Str::slug($state));
+                            }),
+                        TextInput::make('slug')
+                            ->dehydrated()
+                            ->required()
+                            ->unique(Course::class, 'slug', ignoreRecord: true),
+
+                        RichEditor::make('description')
+                            ->required()
+                            ->columnSpan('full'),
+                    ])->columns(2),
+
+                    Section::make('Image')->schema([
+                        CuratorPicker::make('media_id')->label('Image'),
+                    ]),
+                ])
+                    ->columnSpan(2)
+                    ->columnStart(1),
+
+                Group::make()->schema([
+                    Section::make('Status')->schema([
+                        Select::make('status')
+                            ->searchable()
+                            ->options(CourseStatus::options())
+                            ->default(CourseStatus::DRAFT),
+                    ]),
+
+                    Section::make('Duration')->schema([
+                        TextInput::make('duration')
+                            ->integer()
+                            ->helperText('Duration in minutes')
+                            ->required()
+                            ->live()
+                            ->afterStateUpdated(function ($state, Set $set) {
+                                $set('duration_for_humans', CarbonInterval::minutes($state)->cascade()->forHumans());
+                            }),
+                        TextInput::make('duration_for_humans')
+                            ->dehydrated()
+                            ->disabled()
+                            ->helperText('Duration in readable format'),
+                    ]),
+                ])
+                    ->columnSpan(1)
+                    ->columnStart(3),
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
@@ -51,15 +101,23 @@ class CourseResource extends Resource
                     ->searchable()
                     ->badge()
                     ->color(fn (string $state) => CourseStatus::colors($state)),
-                TextColumn::make('title')->searchable(),
-                TextColumn::make('slug')->searchable(),
-                TextColumn::make('duration')->searchable(),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->size(TextColumnSize::Large)
+                    ->weight(FontWeight::Bold),
+                TextColumn::make('slug')
+                    ->searchable()
+                    ->fontFamily(FontFamily::Mono),
+                TextColumn::make('duration')
+                    ->searchable()
+                    ->formatStateUsing(fn ($state) => CarbonInterval::minutes($state)->cascade()->forHumans()),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
