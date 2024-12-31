@@ -2,6 +2,7 @@
 
 namespace App\Forms\Components;
 
+use App\Models\Video;
 use Filament\Forms\Components\Field;
 use Illuminate\Support\Facades\Http;
 
@@ -34,19 +35,11 @@ class VideoUrlInput extends Field
         return $this->iframe;
     }
 
-    public static function getVideoId(string $url)
-    {
-        $paramsString = parse_url($url, PHP_URL_QUERY);
-        parse_str($paramsString, $queryParams);
-
-        return $queryParams['v'] ?? basename(parse_url($url, PHP_URL_PATH));
-    }
-
     public function generateEmbedHtml(string $url): ?string
     {
         // Generate iframe embed HTML based on video URL
         if (str_contains($url, 'youtube.com') || str_contains($url, 'youtu.be')) {
-            $videoId = self::getVideoId($url);
+            $videoId = Video::getVideoId($url);
 
             return <<<HTML
                 <iframe 

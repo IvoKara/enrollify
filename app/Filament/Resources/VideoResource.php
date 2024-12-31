@@ -49,13 +49,7 @@ class VideoResource extends Resource
                 //     ->label('URL')
                 // ->formatStateUsing(),
                 ImageColumn::make('url')
-                    ->getStateUsing(function (Video $record) {
-
-                        $videoId = VideoUrlInput::getVideoId($record->url);
-
-                        // Return the thumbnail URL
-                        return url("https://img.youtube.com/vi/$videoId/sddefault.jpg");
-                    })
+                    ->getStateUsing(fn (Video $record) => $record->thumbnail())
                     ->width(120)
                     ->height(80),
                 Tables\Columns\TextColumn::make('title')->searchable(),
