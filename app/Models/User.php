@@ -12,7 +12,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable //implements FilamentUser
 {
     use HasApiTokens;
 
@@ -55,10 +55,10 @@ class User extends Authenticatable implements FilamentUser
         'profile_photo_url',
     ];
 
-    public function canAccessPanel(\Filament\Panel $panel): bool
-    {
-        return true;
-    }
+    // public function canAccessPanel(\Filament\Panel $panel): bool
+    // {
+    //     return true;
+    // }
 
     /**
      * Get the attributes that should be cast.

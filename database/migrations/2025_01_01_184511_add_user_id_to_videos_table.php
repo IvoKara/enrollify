@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('texts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('media_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->text('content');
-            $table->timestamps();
+        Schema::table('videos', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('texts');
+        Schema::table('videos', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
     }
 };

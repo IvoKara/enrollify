@@ -15,6 +15,7 @@ class Lesson extends Model
         'is_free',
         'duration',
         'meta_description',
+        'user_id',
     ];
 
     public function course(): BelongsTo
@@ -25,5 +26,10 @@ class Lesson extends Model
     public function contents(): HasMany
     {
         return $this->hasMany(LessonContent::class)->orderBy('order');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

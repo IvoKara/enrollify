@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Video extends Model
 {
@@ -11,6 +12,7 @@ class Video extends Model
         'url',
         'order',
         'description',
+        'user_id',
     ];
 
     public static function getVideoId(string $url)
@@ -27,5 +29,10 @@ class Video extends Model
 
         // Return the thumbnail URL
         return url("https://img.youtube.com/vi/$videoId/sddefault.jpg");
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
