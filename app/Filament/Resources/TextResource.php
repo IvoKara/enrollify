@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TextResource\Pages;
+use App\Filament\Traits\FiltersByCurrentUser;
 use App\Models\Text;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
@@ -19,6 +20,8 @@ use Filament\Tables\Table;
 
 class TextResource extends Resource
 {
+    use FiltersByCurrentUser;
+
     protected static ?string $model = Text::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';

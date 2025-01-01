@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VideoResource\Pages;
+use App\Filament\Traits\FiltersByCurrentUser;
 use App\Forms\Components\VideoUrlInput;
 use App\Models\Video;
 use Filament\Forms;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class VideoResource extends Resource
 {
+    use FiltersByCurrentUser;
+
     protected static ?string $model = Video::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-video-camera';

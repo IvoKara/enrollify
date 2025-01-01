@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\VideoResource\Pages;
 
 use App\Filament\Resources\VideoResource;
-use Filament\Actions;
+use App\Filament\Traits\IncludesUserIdOnCreate;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateVideo extends CreateRecord
 {
+    use IncludesUserIdOnCreate;
+
     protected static string $resource = VideoResource::class;
 }

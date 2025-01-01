@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LessonContentsResource\RelationManagers\LessonRelationManager;
 use App\Filament\Resources\LessonResource\Pages;
+use App\Filament\Traits\FiltersByCurrentUser;
 use App\Models\Lesson;
 use Carbon\CarbonInterval;
 use Filament\Forms\Components\Group;
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class LessonResource extends Resource
 {
+    use FiltersByCurrentUser;
+
     protected static ?string $model = Lesson::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';

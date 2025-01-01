@@ -78,7 +78,7 @@ class LessonRelationManager extends RelationManager
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Image')
                     ->getStateUsing(fn (LessonContent $record) => match ($record->contentable_type) {
-                        Text::class => Media::find(Text::find($record->contentable_id)->media_id)->path,
+                        Text::class => Media::find(Text::find($record->contentable_id)->media_id)?->path,
                         Video::class => Video::find($record->contentable_id)->thumbnail(),
                         default => '',
                     })
