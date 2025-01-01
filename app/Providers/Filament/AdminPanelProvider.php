@@ -34,6 +34,8 @@ class AdminPanelProvider extends PanelProvider
                 \Awcodes\Curator\CuratorPlugin::make()
                     ->label('Media')
                     ->pluralLabel('Media'),
+
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
             ])
             ->colors([
                 'primary' => Color::hex('#2284F3'),

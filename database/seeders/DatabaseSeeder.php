@@ -15,9 +15,24 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            ShieldSeeder::class,
         ]);
+
+        $superAdmin = User::factory()->create([
+            'name' => 'Enrollify Admin',
+            'email' => 'admin@enrollify.com',
+            'password' => bcrypt('admin@enrollify.com'),
+        ]);
+
+        $superAdmin->assignRole('super_admin');
+
+        $creator = User::factory()->create([
+            'name' => 'Demo Creator',
+            'email' => 'creator@enrollify.com',
+            'password' => bcrypt('creator@enrollify.com'),
+        ]);
+
+        $creator->assignRole(['panel_user', 'creator']);
     }
 }
