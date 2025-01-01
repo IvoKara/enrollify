@@ -16,10 +16,16 @@ class Course extends Model
         'meta_description',
         'media_id',
         'status',
+        'user_id',
     ];
 
     public function image(): BelongsTo
     {
         return $this->belongsTo(Media::class, 'media_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
