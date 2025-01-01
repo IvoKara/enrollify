@@ -27,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->passwordReset()
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins([
