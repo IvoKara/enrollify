@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasContentableMorph;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Http;
 
 class Video extends Model
 {
+    use HasContentableMorph;
+
     protected $fillable = [
         'title',
         'url',

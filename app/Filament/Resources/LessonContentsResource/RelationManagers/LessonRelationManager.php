@@ -6,6 +6,7 @@ use App\Models\LessonContent;
 use App\Models\Text;
 use App\Models\Video;
 use Awcodes\Curator\Models\Media;
+use Carbon\CarbonInterval;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -109,6 +110,14 @@ class LessonRelationManager extends RelationManager
                         Text::class => 'Text',
                         Video::class => 'Video',
                     }),
+                Tables\Columns\TextColumn::make('duration')
+                    ->getStateUsing(
+                        fn (LessonContent $record): string => CarbonInterval::seconds(
+                            $record->contentable_type::find($record->contentable_id)->duration
+                        )
+                            ->cascade()
+                            ->forHumans()
+                    ),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('contentable_type')
@@ -141,7 +150,15 @@ class LessonRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->label('Remove')
+                    ->icon('heroicon-o-backspace')
+                    ->modalHeading(function ($record) {
+                        $type = class_basename($record->contentable_type);
+                        $title = $record->contentable_type::find($record->contentable_id)->title;
+
+                        return "Remove \"$title\" ($type)";
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
