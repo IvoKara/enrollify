@@ -31,4 +31,11 @@ class Lesson extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getTotalDurationAttribute(): float|int
+    {
+        return $this->contents->map(function (LessonContent $content) {
+            return $content->morphModel()->duration;
+        })->sum();
+    }
 }

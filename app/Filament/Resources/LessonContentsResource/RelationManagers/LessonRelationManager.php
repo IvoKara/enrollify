@@ -113,7 +113,7 @@ class LessonRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('duration')
                     ->getStateUsing(
                         fn (LessonContent $record): string => CarbonInterval::seconds(
-                            $record->contentable_type::find($record->contentable_id)->duration
+                            $record->morphModel()->duration
                         )
                             ->cascade()
                             ->forHumans()
@@ -155,7 +155,7 @@ class LessonRelationManager extends RelationManager
                     ->icon('heroicon-o-backspace')
                     ->modalHeading(function ($record) {
                         $type = class_basename($record->contentable_type);
-                        $title = $record->contentable_type::find($record->contentable_id)->title;
+                        $title = $record->morphModel()->title;
 
                         return "Remove \"$title\" ($type)";
                     }),

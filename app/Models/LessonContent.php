@@ -21,4 +21,9 @@ class LessonContent extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+
+    public function morphModel(): Text|Video
+    {
+        return $this->contentable_type::find($this->contentable_id);
+    }
 }
