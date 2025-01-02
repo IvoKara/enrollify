@@ -12,14 +12,12 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Filters\Filter;
@@ -58,10 +56,6 @@ class LessonResource extends Resource
 
                 Group::make()->schema([
                     Section::make('Course')->schema([
-                        Toggle::make('is_free')
-                            ->label('Is Free')
-                            ->onIcon('heroicon-o-check')
-                            ->offIcon('heroicon-o-currency-dollar'),
                         Select::make('course_id')
                             ->relationship('course', 'title')
                             ->searchable()
@@ -97,9 +91,6 @@ class LessonResource extends Resource
                     ->searchable()
                     ->size(TextColumnSize::Large)
                     ->weight(FontWeight::Bold),
-                IconColumn::make('is_free')
-                    ->boolean()
-                    ->label('Free'),
                 TextColumn::make('meta_description')
                     ->searchable()
                     ->label('Meta Description'),

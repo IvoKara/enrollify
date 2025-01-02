@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->integer('duration');
             $table->string('meta_description')->nullable();
+            $table->integer('duration');
+            $table->boolean('is_free')->default(true);
+            $table->decimal('price', 8, 2)->default(0.0);
             $table->timestamps();
         });
     }

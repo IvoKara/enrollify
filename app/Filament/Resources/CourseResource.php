@@ -14,12 +14,14 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontFamily;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Table;
@@ -64,6 +66,25 @@ class CourseResource extends Resource
                     ->columnStart(1),
 
                 Group::make()->schema([
+                    Section::make('Pricing')->schema([
+                        Toggle::make('is_free')
+                            ->reactive()
+                            ->label('Is Free')
+                            ->onIcon('heroicon-o-check')
+                            ->offIcon('heroicon-o-currency-dollar')
+                            ->afterStateUpdated(function ($set, $state) {
+                                if ($state) {
+                                    $set('price', null); // Set text_input to 0 if toggle is true
+                                }
+                            }),
+
+                        TextInput::make('price')
+                            ->required(fn ($get) => $get('is_free') !== true)
+                            ->numeric()
+                            ->prefix('$')
+                            ->disabled(fn ($get) => $get('is_free') === true),
+                    ]),
+
                     Section::make('Status')->schema([
                         Select::make('status')
                             ->searchable()
@@ -112,6 +133,14 @@ class CourseResource extends Resource
                 TextColumn::make('slug')
                     ->searchable()
                     ->fontFamily(FontFamily::Mono),
+                IconColumn::make('is_free')
+                    ->label('Is Free')
+                    ->boolean()
+                    ->falseColor('warning')
+                    ->falseIcon('heroicon-o-currency-dollar'),
+                TextColumn::make('price')
+                    ->prefix('$')
+                    ->getStateUsing(fn ($record) => $record->is_free ? null : $record->price),
                 TextColumn::make('duration')
                     ->searchable()
                     ->formatStateUsing(fn ($state) => CarbonInterval::minutes($state)->cascade()->forHumans()),

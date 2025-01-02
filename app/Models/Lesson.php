@@ -12,7 +12,6 @@ class Lesson extends Model
         'course_id',
         'title',
         'overview',
-        'is_free',
         'duration',
         'meta_description',
         'user_id',
