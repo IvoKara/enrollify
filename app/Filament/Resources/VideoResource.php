@@ -6,6 +6,7 @@ use App\Filament\Resources\VideoResource\Pages;
 use App\Filament\Traits\FiltersByCurrentUser;
 use App\Forms\Components\VideoUrlInput;
 use App\Models\Video;
+use Carbon\CarbonInterval;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -39,7 +40,15 @@ class VideoResource extends Resource
                     VideoUrlInput::make('url')
                         ->reactive()
                         ->helperText('Enter a valid YouTube or other supported video URL.')
-                        ->required(),
+                        ->required()
+                        ->afterStateUpdated(function ($set, $state, $record) {
+                            return $set('duration', Video::getVideoDuration($state));
+                        }),
+                    Forms\Components\TextInput::make('duration')
+                        ->helperText('Calculated video duration in seconds.')
+                        ->required()
+                        ->readOnly()
+                        ->hidden(fn ($get) => $get('url') === null),
                 ])
                     ->columnStart(3)
                     ->columnSpan(1),
@@ -66,6 +75,8 @@ class VideoResource extends Resource
                     ->searchable()
                     ->words(20)
                     ->lineClamp(3),
+                Tables\Columns\TextColumn::make('duration')
+                    ->formatStateUsing(fn ($state) => CarbonInterval::seconds($state)->cascade()->forHumans()),
             ])
             ->filters([
                 //

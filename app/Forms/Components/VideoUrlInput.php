@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Http;
 
 class VideoUrlInput extends Field
 {
-    public ?string $iframe = null;
-
     protected string $view = 'forms.components.video-url-input';
+
+    public ?string $iframe = null;
 
     public function fetchVideo()
     {
