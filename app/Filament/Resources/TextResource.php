@@ -50,7 +50,7 @@ class TextResource extends Resource
                 Group::make()->schema([
                     Section::make()->schema([
                         TextInput::make('duration')
-                            ->label('Duration (min)')
+                            ->label('Duration')
                             ->helperText('Calculated content read duration in minutes.')
                             ->required()
                             ->readOnly(),
@@ -81,7 +81,7 @@ class TextResource extends Resource
                     ->weight(FontWeight::Bold),
                 TextColumn::make('duration')
                     ->label('Read Duration')
-                    ->formatStateUsing(fn ($state) => CarbonInterval::minutes($state)->cascade()->forHumans())
+                    ->formatStateUsing(fn ($state) => CarbonInterval::seconds($state)->cascade()->forHumans())
                     ->searchable(),
 
                 TextColumn::make('content')
