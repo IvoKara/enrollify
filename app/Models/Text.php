@@ -12,6 +12,7 @@ class Text extends Model
         'content',
         'title',
         'user_id',
+        'duration',
     ];
 
     public function user(): BelongsTo

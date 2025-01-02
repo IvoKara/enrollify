@@ -7,6 +7,8 @@ use App\Filament\Traits\FiltersByCurrentUser;
 use App\Models\Text;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
+use Carbon\CarbonInterval;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -30,16 +32,34 @@ class TextResource extends Resource
     {
         return $form
             ->schema([
-                Section::make()->schema([
-                    TextInput::make('title')->required(),
-                    RichEditor::make('content')->required(),
+                Group::make()->schema([
+                    Section::make()->schema([
+                        TextInput::make('title')->required(),
+                        RichEditor::make('content')
+                            ->required()
+                            ->live(debounce: 500)
+                            ->afterStateUpdated(function ($state, $set) {
+                                $calculatedDuration = ceil(str_word_count(strip_tags($state)) / 200);
+                                $set('duration', $calculatedDuration);
+                            }),
+                    ]),
                 ])
                     ->columns(1)
                     ->columnSpan(2)
                     ->columnStart(1),
+                Group::make()->schema([
+                    Section::make()->schema([
+                        TextInput::make('duration')
+                            ->label('Duration (min)')
+                            ->helperText('Calculated content read duration in minutes.')
+                            ->required()
+                            ->readOnly(),
 
-                Section::make()->schema([
-                    CuratorPicker::make('media_id')->label('Image'),
+                    ]),
+
+                    Section::make()->schema([
+                        CuratorPicker::make('media_id')->label('Image'),
+                    ]),
                 ])
                     ->columns(1)
                     ->columnSpan(1)
@@ -59,10 +79,14 @@ class TextResource extends Resource
                     ->searchable()
                     ->size(TextColumnSize::Large)
                     ->weight(FontWeight::Bold),
+                TextColumn::make('duration')
+                    ->label('Read Duration')
+                    ->formatStateUsing(fn ($state) => CarbonInterval::minutes($state)->cascade()->forHumans())
+                    ->searchable(),
 
                 TextColumn::make('content')
                     ->html()
-                    ->words(20)
+                    ->words(10)
                     ->lineClamp(3)
                     ->searchable(),
             ])
