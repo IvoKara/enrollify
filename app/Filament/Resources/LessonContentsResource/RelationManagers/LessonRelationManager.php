@@ -43,8 +43,20 @@ class LessonRelationManager extends RelationManager
                         ->helperText('Choose your content by title.')
                         ->options(function (callable $get) {
                             $modelClass = $get('contentable_type');
+                            $lesson = $this->getRelationship()->getParent();
 
-                            return $modelClass ? $modelClass::query()->pluck('title', 'id') : [];
+                            $result = $modelClass::whereNotIn(
+                                'id',
+                                $lesson
+                                    ->contents
+                                    ->filter(fn (LessonContent $content) => $content->contentable_type === $modelClass)
+                                    ->pluck('contentable_id')
+                                    ->toArray()
+                            )
+                                ->get()
+                                ->pluck('title', 'id');
+
+                            return $modelClass ? $result : [];
                         })
                         ->reactive()
                         ->visible(fn (callable $get) => $get('contentable_type') !== null)

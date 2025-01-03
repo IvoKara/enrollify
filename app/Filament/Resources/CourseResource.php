@@ -99,6 +99,8 @@ class CourseResource extends Resource
                             ->integer()
                             ->required()
                             ->live()
+                            ->readOnly()
+                            ->default(0)
                             ->afterStateHydrated(function ($state, Set $set) {
                                 $set('duration_for_humans', CarbonInterval::seconds($state)->cascade()->forHumans());
                             }),
