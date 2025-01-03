@@ -148,6 +148,7 @@ class LessonRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
+                    ->label('Add Content')
                     ->after(function (Livewire $livewire) {
                         $livewire->dispatch('refreshDuration');
                     }),
