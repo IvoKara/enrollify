@@ -36,4 +36,11 @@ class Course extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+
+    public function getDurationAttribute(): float|int
+    {
+        return $this->lessons->map(function (Lesson $lesson) {
+            return $lesson->duration;
+        })->sum();
+    }
 }

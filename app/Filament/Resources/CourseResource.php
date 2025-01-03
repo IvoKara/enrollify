@@ -95,17 +95,17 @@ class CourseResource extends Resource
 
                     Section::make('Duration')->schema([
                         TextInput::make('duration')
+                            ->helperText('Overall Course Duration in seconds')
                             ->integer()
-                            ->helperText('Duration in minutes')
                             ->required()
                             ->live()
-                            ->afterStateUpdated(function ($state, Set $set) {
-                                $set('duration_for_humans', CarbonInterval::minutes($state)->cascade()->forHumans());
+                            ->afterStateHydrated(function ($state, Set $set) {
+                                $set('duration_for_humans', CarbonInterval::seconds($state)->cascade()->forHumans());
                             }),
                         TextInput::make('duration_for_humans')
                             ->dehydrated()
                             ->disabled()
-                            ->helperText('Duration in readable format'),
+                            ->helperText('Overall Course Duration in readable format'),
                     ]),
                 ])
                     ->columnSpan(1)
@@ -143,7 +143,11 @@ class CourseResource extends Resource
                     ->getStateUsing(fn ($record) => $record->is_free ? null : $record->price),
                 TextColumn::make('duration')
                     ->searchable()
-                    ->formatStateUsing(fn ($state) => CarbonInterval::minutes($state)->cascade()->forHumans()),
+                    ->formatStateUsing(fn ($state) => CarbonInterval::seconds($state)->cascade()->forHumans()),
+                TextColumn::make('lessons_count')
+                    ->label('Lessons')
+                    ->badge()
+                    ->getStateUsing(fn ($record) => $record->lessons->count()),
             ])
             ->filters([
                 //
