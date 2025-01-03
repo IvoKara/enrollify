@@ -30,7 +30,12 @@ class TextFactory extends Factory
             'content' => $content,
             'duration' => Text::calculateDuration($content),
             'media_id' => $this->faker->boolean() ? $this->faker->numberBetween(1, 10) : null,
-            'user_id' => User::where('email', 'creator@enrollify.com')->first()->id,
+            'user_id' => User::where(
+                'email',
+                $this->faker->randomElement(['creator@enrollify.com', 'johndoe@gmail.com'])
+            )
+                ->first()
+                ->id,
         ];
     }
 }

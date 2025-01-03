@@ -27,5 +27,13 @@ class UserSeeder extends Seeder
         ]);
 
         $creator->assignRole(['panel_user', 'creator']);
+
+        $anotherExternalCreator = User::factory()->create([
+            'name' => 'John Doe',
+            'email' => 'johndoe@gmail.com',
+            'password' => bcrypt('johndoe@gmail.com'),
+        ]);
+
+        $anotherExternalCreator->assignRole(['panel_user', 'creator']);
     }
 }
