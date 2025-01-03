@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,7 +19,5 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/courses', function () {
-        return Inertia::render('Courses/Index');
-    })->name('courses.index');
+    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 });
