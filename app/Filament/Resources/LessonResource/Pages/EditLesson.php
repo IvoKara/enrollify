@@ -23,6 +23,7 @@ class EditLesson extends EditRecord
             'title' => $record->title,
             'meta_description' => $record->meta_description,
             'overview' => $record->overview,
+            'course_id' => $record->course_id,
         ]);
     }
 
