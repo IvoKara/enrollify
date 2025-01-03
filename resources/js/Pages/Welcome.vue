@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import IconMoon from 'virtual:icons/heroicons/moon'
+import IconSun from 'virtual:icons/heroicons/sun'
+
 defineProps({
   canLogin: {
     type: Boolean,
@@ -16,7 +19,7 @@ defineProps({
   },
 })
 
-const page = usePage()
+const isDark = useDark()
 
 function handleImageError() {
   document.getElementById('screenshot-container')?.classList.add('!hidden')
@@ -36,7 +39,11 @@ function handleImageError() {
           <div class="flex lg:justify-center lg:col-start-1">
             <ApplicationMark />
           </div>
-          <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end lg:col-start-3">
+          <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end  lg:col-start-3">
+            <button class="me-4" @click="isDark = !isDark">
+              <IconSun v-if="!isDark" />
+              <IconMoon v-else />
+            </button>
             <Link
               v-if="$page.props.auth.user"
               :href="route('dashboard')"

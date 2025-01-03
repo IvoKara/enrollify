@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import IconMoon from 'virtual:icons/heroicons/moon'
+import IconSun from 'virtual:icons/heroicons/sun'
+
 defineProps({
   title: String,
 })
@@ -48,11 +51,12 @@ function logout() {
               </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:gap-4 sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:gap-2 sm:ms-6">
               <button @click="isDark = !isDark">
-                {{ isDark ? 'Dark' : 'Light' }}
+                <IconSun v-if="!isDark" />
+                <IconMoon v-else />
               </button>
-              <div class="ms-3 relative">
+              <div class="relative">
                 <!-- Teams Dropdown -->
                 <Dropdown v-if="page.props.jetstream.hasTeamFeatures" align="right" width="60">
                   <template #trigger>
