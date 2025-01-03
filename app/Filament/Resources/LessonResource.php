@@ -13,7 +13,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
@@ -23,6 +22,7 @@ use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Component as Livewire;
 
 class LessonResource extends Resource
 {
@@ -65,17 +65,17 @@ class LessonResource extends Resource
 
                     Section::make('Duration')->schema([
                         TextInput::make('duration')
-                            ->integer()
-                            ->helperText('Duration in minutes')
+                            ->helperText('Total Lesson duration in seconds')
                             ->required()
-                            ->live()
-                            ->afterStateUpdated(function ($state, Set $set) {
-                                $set('duration_for_humans', CarbonInterval::minutes($state)->cascade()->forHumans());
+                            ->readOnly()
+                            ->default(0)
+                            ->afterStateHydrated(function (Livewire $livewire) {
+                                $livewire->dispatch('refreshDuration');
                             }),
                         TextInput::make('duration_for_humans')
                             ->dehydrated()
                             ->disabled()
-                            ->helperText('Duration in readable format'),
+                            ->helperText('Total Lesson duration in readable format'),
                     ]),
                 ])
                     ->columnSpan(1)
@@ -96,7 +96,7 @@ class LessonResource extends Resource
                     ->label('Meta Description'),
                 TextColumn::make('duration')
                     ->sortable()
-                    ->formatStateUsing(fn ($state) => CarbonInterval::minutes($state)->cascade()->forHumans()),
+                    ->formatStateUsing(fn ($state) => CarbonInterval::seconds($state)->cascade()->forHumans()),
                 TextColumn::make('course.title')
                     ->searchable()
                     ->url(

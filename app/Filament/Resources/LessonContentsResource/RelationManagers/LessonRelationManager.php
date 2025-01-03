@@ -16,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Component as Livewire;
 
 class LessonRelationManager extends RelationManager
 {
@@ -146,10 +147,16 @@ class LessonRelationManager extends RelationManager
                 }),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->after(function (Livewire $livewire) {
+                        $livewire->dispatch('refreshDuration');
+                    }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->after(function (Livewire $livewire) {
+                        $livewire->dispatch('refreshDuration');
+                    }),
                 Tables\Actions\DeleteAction::make()
                     ->label('Remove')
                     ->icon('heroicon-o-backspace')
@@ -158,11 +165,16 @@ class LessonRelationManager extends RelationManager
                         $title = $record->morphModel()->title;
 
                         return "Remove \"$title\" ($type)";
+                    })->after(function ($livewire) {
+                        $livewire->dispatch('refreshDuration');
                     }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->after(function (Livewire $livewire) {
+                            $livewire->dispatch('refreshDuration');
+                        }),
                 ]),
             ]);
     }
