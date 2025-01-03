@@ -22,4 +22,14 @@ class Text extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function calculateDuration(string $text)
+    {
+        return ceil(str_word_count(strip_tags($text)) / 200) * 60;
+    }
+
+    public function getDuration()
+    {
+        return static::calculateDuration($this->content);
+    }
 }
