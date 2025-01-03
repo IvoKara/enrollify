@@ -30,8 +30,8 @@ function logout() {
 
     <Banner />
 
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-950">
-      <nav class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-950 relative">
+      <nav class="sticky z-10 top-0 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between h-16">
