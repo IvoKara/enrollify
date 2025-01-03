@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use Awcodes\Curator\Models\Media;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'slug',
@@ -42,5 +46,10 @@ class Course extends Model
         return $this->lessons->map(function (Lesson $lesson) {
             return $lesson->duration;
         })->sum();
+    }
+
+    public function enrolledUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'users_enrolled_courses');
     }
 }

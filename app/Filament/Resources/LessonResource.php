@@ -22,7 +22,6 @@ use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Livewire\Component as Livewire;
 
 class LessonResource extends Resource
 {
@@ -57,9 +56,12 @@ class LessonResource extends Resource
                 Group::make()->schema([
                     Section::make('Course')->schema([
                         Select::make('course_id')
-                            ->relationship('course', 'title')
+                            ->relationship(
+                                name: 'course',
+                                titleAttribute: 'title',
+                                modifyQueryUsing: fn (Builder $query) => $query->where('user_id', auth()->user()->id),
+                            )
                             ->searchable()
-                            ->required()
                             ->native(false),
                     ]),
 
@@ -69,8 +71,8 @@ class LessonResource extends Resource
                             ->required()
                             ->readOnly()
                             ->default(0)
-                            ->afterStateHydrated(function (Livewire $livewire) {
-                                $livewire->dispatch('refreshDuration');
+                            ->afterStateHydrated(function ($state, $set) {
+                                $set('duration_for_humans', CarbonInterval::seconds($state)->cascade()->forHumans());
                             }),
                         TextInput::make('duration_for_humans')
                             ->dehydrated()
@@ -98,17 +100,24 @@ class LessonResource extends Resource
                     ->sortable()
                     ->formatStateUsing(fn ($state) => CarbonInterval::seconds($state)->cascade()->forHumans()),
                 TextColumn::make('course.title')
+                    ->getStateUsing(fn ($record) => $record->course?->title)
                     ->searchable()
-                    ->url(
-                        fn (Lesson $record) => route(
-                            'filament.admin.resources.courses.edit',
-                            ['record' => $record->course->id]
-                        )
-                    )
+                    ->url(function (Lesson $record) {
+                        if ($record->course?->id) {
+                            return route(
+                                'filament.admin.resources.courses.edit',
+                                ['record' => $record->course->id]
+                            );
+                        }
+                    })
                     ->color('primary')
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->iconPosition(IconPosition::After)
                     ->label('Course'),
+                TextColumn::make('contents_count')
+                    ->label('Contents')
+                    ->badge()
+                    ->getStateUsing(fn (Lesson $record) => $record->contents->count() ?? 0),
             ])
             ->filters([
                 Filter::make('Filter By Duration')->form([

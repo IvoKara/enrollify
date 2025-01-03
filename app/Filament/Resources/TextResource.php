@@ -39,7 +39,7 @@ class TextResource extends Resource
                             ->required()
                             ->live(debounce: 500)
                             ->afterStateUpdated(function ($state, $set) {
-                                $calculatedDuration = ceil(str_word_count(strip_tags($state)) / 200);
+                                $calculatedDuration = ceil(Text::calculateDuration($state) / 60);
                                 $set('duration', $calculatedDuration);
                             }),
                     ]),

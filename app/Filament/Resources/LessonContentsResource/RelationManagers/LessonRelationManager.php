@@ -53,7 +53,7 @@ class LessonRelationManager extends RelationManager
                                     ->pluck('contentable_id')
                                     ->toArray()
                             )
-                                ->get()
+                                ->where('user_id', auth()->user()->id)
                                 ->pluck('title', 'id');
 
                             return $modelClass ? $result : [];
