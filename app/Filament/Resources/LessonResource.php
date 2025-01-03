@@ -59,7 +59,6 @@ class LessonResource extends Resource
                         Select::make('course_id')
                             ->relationship('course', 'title')
                             ->searchable()
-                            ->required()
                             ->native(false),
                     ]),
 
