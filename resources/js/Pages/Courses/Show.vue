@@ -1,12 +1,28 @@
 <script setup lang="ts">
-import type { Course } from '@/types'
+import type { Course, User } from '@/types'
+import { router } from '@inertiajs/vue3'
+import IconCheckCircle from 'virtual:icons/heroicons/check-circle'
 import IconClock from 'virtual:icons/heroicons/clock'
 import IconDocumentText from 'virtual:icons/heroicons/document-text'
 import IconVideoCamera from 'virtual:icons/heroicons/video-camera'
 
-defineProps<{
+const props = defineProps<{
   course: Course
+  auth: {
+    user: User
+  }
 }>()
+
+const isCourseEnrolled = computed(() =>
+  props.auth.user.enrolled_courses.includes(props.course.slug),
+)
+
+function computeContentUrl(contentId: number) {
+  return route('courses.show.content', {
+    course: props.course.slug,
+    content: contentId,
+  })
+}
 </script>
 
 <template>
@@ -82,19 +98,20 @@ defineProps<{
                   <ul class="pl-2">
                     <li
                       v-for="content in lesson.contents" :key="content.id"
-                      class="flex gap-2 items-center py-2 hover:underline"
+                      class="flex gap-2 items-center py-2"
+                      :class="{
+                        'hover:underline': isCourseEnrolled,
+                      }"
                     >
-                      <Link
-                        :href="route('courses.show.content', {
-                          course: course.slug,
-                          content: content.id,
-                        })"
+                      <component
+                        :is="isCourseEnrolled ? 'Link' : 'div'"
+                        :href="isCourseEnrolled ? computeContentUrl(content.id) : undefined"
                         class="contents"
                       >
                         <IconVideoCamera v-if="content.type === 'video'" />
                         <IconDocumentText v-else-if="content.type === 'text'" />
                         <span>{{ content.data.title }}</span>
-                      </Link>
+                      </component>
                     </li>
                   </ul>
                 </div>
@@ -110,12 +127,29 @@ defineProps<{
           :alt="course.media.alt"
         >
 
-        <h1 class="mt-4 text-3xl font-semibold text-gray-900 dark:text-gray-100">
-          {{ course.is_free ? 'Free' : course.price }}
-        </h1>
-
-        <PrimaryButton class="justify-center">
-          {{ course.is_free ? 'Enroll Yourself' : 'Buy Course' }}
+        <div class="mt-4 flex gap-2 items-center">
+          <h1
+            class="text-3xl font-semibold text-gray-900 dark:text-gray-100"
+            :class="{
+              'line-through opacity-50': isCourseEnrolled && !course.is_free,
+            }"
+          >
+            {{ course.is_free ? 'Free' : course.price }}
+          </h1>
+          <IconCheckCircle v-if="isCourseEnrolled" class="w-7 h-7 dark:text-green-400 text-green-500" />
+        </div>
+        <PrimaryButton
+          class="justify-center"
+          :disabled="isCourseEnrolled"
+          @click="router.post(route('courses.enroll', {
+            course: course.slug,
+          }))"
+        >
+          {{
+            isCourseEnrolled
+              ? 'Enrolled'
+              : course.is_free ? 'Enroll Yourself' : 'Buy Course'
+          }}
         </PrimaryButton>
       </div>
     </div>

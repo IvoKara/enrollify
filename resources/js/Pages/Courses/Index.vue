@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import type { Course } from '@/types'
+import type { Course, User } from '@/types'
 import IconArrowRight from 'virtual:icons/heroicons/arrow-right-16-solid'
 import IconClock from 'virtual:icons/heroicons/clock'
+import IconPlayCircle from 'virtual:icons/heroicons/play-circle'
 
 defineProps<{
   courses: Course[]
+  auth: {
+    user: User
+  }
 }>()
 </script>
 
@@ -28,16 +32,20 @@ defineProps<{
               :src="course.media.url"
               :alt="course.media.alt"
             >
-            <span
-              class="text-sm mt-4 px-2.5 py-0.5 self-start inline-block rounded-md"
-              :class="
-                course.is_free
-                  ? 'dark:bg-green-700/50 dark:text-green-300 bg-green-400/80 text-green-950'
-                  : 'dark:bg-yellow-700/50  dark:text-yellow-300 bg-yellow-400/60 text-yellow-900'
-              "
-            >
-              {{ course.is_free ? 'Free' : course.price }}
-            </span>
+            <div class="mt-4 flex items-center justify-between gap-4">
+              <span
+                class="text-sm px-2.5 py-0.5 self-start inline-block rounded-md"
+                :class="
+                  course.is_free
+                    ? 'dark:bg-green-700/50 dark:text-green-300 bg-green-400/80 text-green-950'
+                    : 'dark:bg-yellow-700/50  dark:text-yellow-300 bg-yellow-400/60 text-yellow-900'
+                "
+              >
+                {{ course.is_free ? 'Free' : course.price }}
+              </span>
+
+              <IconPlayCircle v-if="auth.user.enrolled_courses.includes(course.slug)" class="dark:text-green-400 text-green-500" />
+            </div>
             <div class="mt-2">
               <hgroup class="flex items-center gap-1">
                 <h2 class="group-hover:underline text-lg font-semibold text-gray-900 dark:text-gray-100">

@@ -36,7 +36,7 @@ class CourseController extends Controller
 
     public function enroll(Request $request, Course $course)
     {
-        //
+        auth()->user()->enrolledCourses()->attach($course);
     }
 
     /**

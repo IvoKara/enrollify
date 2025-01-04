@@ -59,5 +59,17 @@ export interface Course {
   status: 'published' | 'draft' | 'pending' | 'archived'
   media: Media
   lessons: Lesson[]
-  creator: any
+  creator: User
+}
+
+export interface User {
+  id: number
+  name: string
+  email: string
+  email_verified_at: Date
+  created_at: Date
+  updated_at: Date
+  profile_photo_path: string | null
+  profile_photo_url: string | null
+  enrolled_courses: string[]
 }

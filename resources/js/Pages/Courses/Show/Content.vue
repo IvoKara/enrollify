@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LessonContent } from '@/types'
+import type { LessonContent, User } from '@/types'
 
 defineProps<{
   content: LessonContent
