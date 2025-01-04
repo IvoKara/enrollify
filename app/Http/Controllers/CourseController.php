@@ -40,7 +40,9 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        return Inertia::render('Courses/Show', [
+            'course' => CourseResource::make($course),
+        ]);
     }
 
     /**

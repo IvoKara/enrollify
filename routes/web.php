@@ -20,4 +20,5 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+    Route::get('/courses/{course:slug}', [CourseController::class, 'show'])->name('courses.show');
 });
