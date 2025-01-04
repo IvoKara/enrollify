@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\LessonContentResource;
 use App\Models\Course;
+use App\Models\LessonContent;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,15 +24,17 @@ class CourseController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+    {
+        //
+    }
+
+    public function enroll(Request $request, Course $course)
     {
         //
     }
@@ -42,6 +46,14 @@ class CourseController extends Controller
     {
         return Inertia::render('Courses/Show', [
             'course' => CourseResource::make($course),
+        ]);
+    }
+
+    public function showContent(Course $course, LessonContent $content)
+    {
+        return Inertia::render('Courses/Show/Content', [
+            'content' => LessonContentResource::make($content),
+            'course_slug' => $course->slug,
         ]);
     }
 

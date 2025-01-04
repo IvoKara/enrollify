@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Course, LessonContent } from '@/types'
+import type { Course } from '@/types'
 import IconClock from 'virtual:icons/heroicons/clock'
 import IconDocumentText from 'virtual:icons/heroicons/document-text'
 import IconVideoCamera from 'virtual:icons/heroicons/video-camera'
@@ -49,9 +49,9 @@ defineProps<{
           <div class="mt-1 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 rounded-lg">
             <details
               v-for="lesson in course.lessons" :key="lesson.id"
-              class="px-3 py-3  border-b border-b-gray-200 dark:border-b-gray-700"
+              class="last:border-b-0 border-b border-b-gray-200 dark:border-b-gray-700"
             >
-              <summary class="cursor-pointer flex gap-2 items-center justify-between">
+              <summary class="px-3 py-3 cursor-pointer flex gap-2 items-center justify-between">
                 <span class="text-gray-900 dark:text-gray-100">
                   {{ lesson.title }}
                 </span>
@@ -60,7 +60,7 @@ defineProps<{
                 </span>
               </summary>
 
-              <div class="ps-4 pt-4 space-y-4">
+              <div class="p-4 space-y-4">
                 <p class="italic" v-html="lesson.meta_description" />
 
                 <div>
@@ -82,11 +82,19 @@ defineProps<{
                   <ul class="pl-2">
                     <li
                       v-for="content in lesson.contents" :key="content.id"
-                      class="flex gap-2 items-center py-2"
+                      class="flex gap-2 items-center py-2 hover:underline"
                     >
-                      <IconVideoCamera v-if="content.type === 'video'" />
-                      <IconDocumentText v-else-if="content.type === 'text'" />
-                      <span>{{ content.data.title }}</span>
+                      <Link
+                        :href="route('courses.show.content', {
+                          course: course.slug,
+                          content: content.id,
+                        })"
+                        class="contents"
+                      >
+                        <IconVideoCamera v-if="content.type === 'video'" />
+                        <IconDocumentText v-else-if="content.type === 'text'" />
+                        <span>{{ content.data.title }}</span>
+                      </Link>
                     </li>
                   </ul>
                 </div>

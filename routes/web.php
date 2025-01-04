@@ -21,4 +21,6 @@ Route::middleware([
 ])->group(function () {
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/courses/{course:slug}', [CourseController::class, 'show'])->name('courses.show');
+    Route::post('/courses/{course:slug}', [CourseController::class, 'enroll'])->name('courses.enroll');
+    Route::get('/courses/{course:slug}/content/{content}', [CourseController::class, 'showContent'])->name('courses.show.content');
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Video;
 use App\Traits\HasFormattedDuration;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,6 +24,7 @@ class VideoResource extends JsonResource
             'duration' => $this->getFormattedDuration(),
             'description' => $this->description,
             'url' => $this->url,
+            'url_id' => Video::getVideoId($this->url),
         ];
     }
 }

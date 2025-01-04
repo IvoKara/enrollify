@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Traits\HasFormattedDuration;
+use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,7 +22,7 @@ class TextResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'media' => \Awcodes\Curator\Models\Media::find($this->media_id),
-            'duration' => $this->getFormattedDuration(),
+            'duration' => CarbonInterval::seconds($this->duration)->cascade()->minutes.' min',
             'content' => $this->content,
         ];
     }

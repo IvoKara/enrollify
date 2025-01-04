@@ -19,16 +19,23 @@ export interface Video {
   duration: string
   description: string
   url: string
+  url_id: string
 }
 
 export type LessonContent = {
   id: number
-} & {
   type: 'text'
   data: Text
+  lesson: Lesson
+  next_id: number
+  prev_id: number
 } | {
+  id: number
   type: 'video'
   data: Video
+  lesson: Lesson
+  next_id: number
+  prev_id: number
 }
 
 export interface Lesson {
@@ -51,6 +58,6 @@ export interface Course {
   price: string
   status: 'published' | 'draft' | 'pending' | 'archived'
   media: Media
-  lessons: any[]
+  lessons: Lesson[]
   creator: any
 }
