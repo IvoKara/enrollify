@@ -37,7 +37,7 @@ export interface Lesson {
   meta_description: string | null
   overview: string
   duration: string
-  contents: any[]
+  contents: LessonContent[]
 }
 
 export interface Course {
