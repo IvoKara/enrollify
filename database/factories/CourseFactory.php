@@ -36,6 +36,8 @@ class CourseFactory extends Factory
             'price' => $free ? 0 : $this->faker->randomFloat(2, 5, 50),
             'media_id' => $this->faker->numberBetween(1, 10),
             'user_id' => $this->randomUserId(),
+            'meta_description' => $this->faker->sentence(10),
+            'description' => $this->faker->paragraph(),
         ];
     }
 }

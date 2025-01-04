@@ -26,7 +26,7 @@ class Course extends Model
         'price',
     ];
 
-    public function image(): BelongsTo
+    public function media(): BelongsTo
     {
         return $this->belongsTo(Media::class, 'media_id');
     }

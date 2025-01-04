@@ -1,6 +1,7 @@
 import vue from '@vitejs/plugin-vue'
 import laravel from 'laravel-vite-plugin'
 import autoimports from 'unplugin-auto-import/vite'
+import icons from 'unplugin-icons/vite'
 import components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import { run } from 'vite-plugin-run'
@@ -68,6 +69,7 @@ export default defineConfig({
         },
       ],
     }),
+    icons(),
   ],
   resolve: {
     alias: {
