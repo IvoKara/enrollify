@@ -54,6 +54,7 @@ class CourseController extends Controller
         return Inertia::render('Courses/Show/Content', [
             'content' => LessonContentResource::make($content),
             'course_slug' => $course->slug,
+            'course_title' => $course->title,
         ]);
     }
 

@@ -4,6 +4,7 @@ import type { LessonContent } from '@/types'
 defineProps<{
   content: LessonContent
   course_slug: string
+  course_title: string
 }>()
 </script>
 
@@ -11,7 +12,7 @@ defineProps<{
   <AppLayout :title="content.data.title">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ content.data.title }}
+        Course: {{ course_title }}
       </h2>
     </template>
 
