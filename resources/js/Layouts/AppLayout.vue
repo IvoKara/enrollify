@@ -156,7 +156,7 @@ function logout() {
                     </DropdownLink>
 
                     <div class="border-t border-gray-200 dark:border-gray-600" />
-                    <DropdownLink data-inertia="false" :href="route('filament.admin.pages.dashboard', {}, true)">
+                    <DropdownLink as="a" :href="route('filament.admin.pages.dashboard', {}, true)">
                       Creator Dashboard
                     </DropdownLink>
 
