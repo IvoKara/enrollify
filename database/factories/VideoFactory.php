@@ -36,7 +36,6 @@ class VideoFactory extends Factory
         'https://www.youtube.com/watch?v=1yS-JV4fWqY',
         'https://www.youtube.com/watch?v=th4OBktqK1I',
         'https://www.youtube.com/watch?v=W6NZfCO5SIk',
-        'https://www.youtube.com/watch?v=Bg9r_yLk7VY',
         'https://www.youtube.com/watch?v=qz0aGYrrlhU',
         'https://www.youtube.com/watch?v=on9nwbZngyw',
         'https://www.youtube.com/watch?v=PoRJizFvM7s',
