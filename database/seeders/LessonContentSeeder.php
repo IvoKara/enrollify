@@ -15,7 +15,7 @@ class LessonContentSeeder extends Seeder
     {
         Lesson::all()->each(function (Lesson $lesson) {
 
-            $contents = LessonContent::factory()->count(rand(3, 6))->make([
+            $contents = LessonContent::factory()->count(rand(3, 10))->make([
                 'lesson_id' => $lesson->id,
             ]);
 
