@@ -1,5 +1,5 @@
 <p align="center">
-<img src="public/enrollify-logo.svg" width="300" alt="Enrollify Logo">
+<img src="public/enrollify-logo-blue.svg" width="300" alt="Enrollify Logo">
 </p>
 
 ## About Enrollify
