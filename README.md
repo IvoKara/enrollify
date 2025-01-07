@@ -12,11 +12,12 @@ You can create, edit, or delete your own courses.
 
 The application is Dockerized using [Laravel Sail](https://laravel.com/docs/11.x/sail) so no need any other dependancy except Docker 🐋.
 
-First run the installation script to pull and build the required docker images for Laravel and MySQL and also to install composer requirements:
+First run the installation script to pull and build the required docker images for Laravel and MySQL and also to install composer requirements. Should also copy `.env.example` as it is used for configuration. You should provide your own YouTube API Key in the `.env` file - `YOUTUBE_API_KEY`  in order for fetching YouTube videos to work:
 
 ```bash
 git clone https://github.com/IvoKara/enrollify
 cd enrollify
+cp .env.example .env
 ./install.sh
 ```
 
