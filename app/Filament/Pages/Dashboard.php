@@ -11,7 +11,7 @@ class Dashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            \Filament\Widgets\AccountWidget::class,
+            \App\Filament\Widgets\AccountWidget::class,
             \App\Filament\Widgets\StatsOverviewWidget::class,
         ];
     }
