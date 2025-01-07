@@ -55,7 +55,7 @@ sail pnpm dev
 For building the application:
 
 ```bash
-sail pnpm dev
+sail pnpm build
 ```
 
 ## Features
